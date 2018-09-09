@@ -1,0 +1,19 @@
+{
+    "path_config":{
+        "dat_path":"dat",
+        "sql_directory_path":"sql",
+        "mail_collection_path":"mcs",
+        "judge_file_name":"judge.csv"
+    },
+    "database_config":{
+        "database_name":"models.db"
+    },
+    "train_config":{
+	"judge_word":"0",
+        "separators":"0123456789,. 。、　あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわを",
+	"smoothing":"0.1"
+    },
+    "arg_config":{
+        "invalid_chars":"and or from into where join [ ] { } < > ( ) - + ^ , . / \\"
+    }
+}
