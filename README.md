@@ -38,5 +38,5 @@ run `./train.sh training_data_dir_name` for making a model in the database.
 ## Author
 jiyucho9145
 
-## Lisence
+## License
 MIT
