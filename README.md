@@ -1,10 +1,10 @@
 # bfcm
 
-A statical tool written in Python.
+A conditional probability calculator.
 
 ## Description
 
-The bfcm is a statistical tool written in Python. 
+The bfcm is a conditional probability calculator. 
 It calculates a conditional probability of a category given a document by Bayesian filter.
 
 Two shell scripts `train.sh` and `prob.sh` are mainly used for caluculation. 
