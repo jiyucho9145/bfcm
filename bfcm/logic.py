@@ -227,6 +227,7 @@ class TrainLogic:
         sm = self._cm.get_smoothing()
         found = 0
         total = 0
+        cc = []
         for e in ec:
             evd = e.get_value_dict()
             flag = True
@@ -238,7 +239,9 @@ class TrainLogic:
                 total = total + 1
                 if evd[jd] == judge:
                     found = found + 1
-        return float(found + sm)/float(total + sm*2)
+            cc.append(evd[jd])
+        cn = len(set(cc))
+        return float(found + sm)/float(total + sm*cn)
 
     def dump_measurable_set(self, ms):
         return json.dumps(ms.get_value_dict())
