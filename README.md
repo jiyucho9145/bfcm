@@ -2,7 +2,7 @@
 
 ## Description
 
-The bfcm calculates a conditional probability of a category given a document.
+The bfcm calculates a conditional probability of a category given a document by Bayesian filter.
 
 ## Requirement
 
