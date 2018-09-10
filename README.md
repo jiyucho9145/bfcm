@@ -7,8 +7,8 @@ A statical tool written in Python.
 The bfcm is a statistical tool written in Python. 
 It calculates a conditional probability of a category given a document by Bayesian filter.
 
-Two shell scripts train.sh and prob.sh are mainly used for caluculation. 
-The train.sh makes a model in a database, and prob.sh calculates a conditional probability using the model in the database.
+Two shell scripts `train.sh` and `prob.sh` are mainly used for caluculation. 
+The `train.sh` makes a model in a database, and `prob.sh` calculates a conditional probability using the model in the database.
 
 ## Requirement
 
@@ -19,8 +19,8 @@ The train.sh makes a model in a database, and prob.sh calculates a conditional p
 
 1. Change directory into extracted bfcm directory in your terminal.
 2. If a model correspoinding to *training_data_dir_name* have not been maked yet, 
-run `./train.sh` *training_data_dir_name* for making a model in the database.
-3. Run `./prob.sh` *training_data_dir_name* *document_content* *category* for calculation.
+run `./train.sh *training_data_dir_name*` for making a model in the database.
+3. Run `./prob.sh *training_data_dir_name* *document_content* *category*` for calculation.
 4. The conditional probability of *category* given *document_content* would be printed in a terminal.
 
 ## Installation
