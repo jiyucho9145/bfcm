@@ -1,8 +1,14 @@
-# bfcm - A statical tool written in Python.
+# bfcm
+
+A statical tool written in Python.
 
 ## Description
 
-The bfcm calculates a conditional probability of a category given a document by Bayesian filter.
+The bfcm is a statistical tool written in Python. 
+It calculates a conditional probability of a category given a document by Bayesian filter.
+
+Two shell scripts train.sh and prob.sh are mainly used for caluculation. 
+The train.sh makes a model in a database, and prob.sh calculates a conditional probability using the model in the database.
 
 ## Requirement
 
@@ -12,20 +18,22 @@ The bfcm calculates a conditional probability of a category given a document by 
 ## Usage
 
 1. Change directory into extracted bfcm directory in your terminal.
-2. Make a directory (e.g. docs) in bfcm/mcs directory.
-3. Make a documents (e.g. doc1.txt, doc2.txt and, doc3.txt) in bfcm/mcs/docs.
-4. Make a tab separated CSV file judge.csv in bfcm/mcs/docs. The name judge.csv is configured in bfcm/etc/bfcm.json file.
-5. Add document names and categories (e.g. vegetable	food) into judge.csv.
-6. Change directory into 'top' bfcm directory agein.
-7. run './init.sh'
-8. run './train.sh docs'
-9. run './prob.sh docs vegetable food'
-10. The conditional probability of 'food' category given document 'vegetable' would be printed.
+2. If a model correspoinding to *training_data_dir_name* have not been maked yet, 
+run `./train.sh` *training_data_dir_name* for making a model in the database.
+3. Run `./prob.sh` *training_data_dir_name* *document_content* *category* for calculation.
+4. The conditional probability of *category* given *document_content* would be printed in a terminal.
 
 ## Installation
 
 1. Download bfcm as a zip file form bfcm repository page (https://github.com/jiyucho9145/bfcm).
 2. Extract the zip file.
+3. Change directory into extracted bfcm directory in your terminal.
+4. Make a training data directory (e.g. `td`) in `bfcm/mcs` directory.
+5. Make a documents (e.g. `td1.txt`, `td2.txt` and, `td3.txt`) in the training data directory `bfcm/mcs/td`.
+6. Make a tab separated CSV file `judge.csv` in `bfcm/mcs/td` directory. The file name `judge.csv` is specified in `bfcm/etc/bfcm.json` file.
+7. Add document names and categories (e.g. `td1.txt	category1`) into `judge.csv` file.
+8. Change directory into 'top' bfcm directory agein.
+9. Run `./init.sh` for making a database.
 
 ## Author
 jiyucho9145
