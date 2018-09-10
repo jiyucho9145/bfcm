@@ -32,7 +32,7 @@ run `./train.sh training_data_dir_name` for making a model in the database.
 5. Make a documents (e.g. `td1.txt`, `td2.txt` and, `td3.txt`) in the training data directory `bfcm/mcs/td`.
 6. Make a tab separated CSV file `judge.csv` in `bfcm/mcs/td` directory. The file name `judge.csv` is specified in `bfcm/etc/bfcm.json` file.
 7. Add document names and categories (e.g. `td1.txt	category1`) into `judge.csv` file.
-8. Change directory into 'top' bfcm directory agein.
+8. Change directory into 'top' bfcm directory again.
 9. Run `./init.sh` for making a database.
 
 ## Author
