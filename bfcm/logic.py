@@ -2,6 +2,7 @@
 # _*_ coding: utf-8 _*_
 
 import os
+import sys
 import codecs
 import json
 import csv
@@ -126,11 +127,11 @@ class DatabaseLogic:
         results = conn.execute(self.read_sql('selectattributes.sql'), (mpssid,))
         col = []
         for result in results:
-            results2 = conn.execute(self.read_sql('selectbysid.sql') % 'mail_profiles', (result[1],))
+            results2 = conn.execute(self.read_sql('selectbysid2.sql') % ('sid', 'judge', 'mail_profiles'), (result[1],))
             for result2 in results2:
                 results3 = conn.execute(self.read_sql('selectattributes.sql'), (result2[0],))
                 for result3 in results3:
-                    results4 = conn.execute(self.read_sql('selectbysid.sql') % 'content_profiles', (result3[1],))
+                    results4 = conn.execute(self.read_sql('selectbysid2.sql') % ('sid', 'content_path', 'content_profiles'), (result3[1],))
                     for result4 in results4:
                         cp = ContentProfile(result4[0], result4[1])
                         mp = MailProfile(result2[0], result2[1], cp)
@@ -143,21 +144,37 @@ class DatabaseLogic:
         p = self._create_probability(msid)
         return Model(msid, s, e, p)
 
+    def easy_check(self, s):
+        cc = self._cm.get_invalid_chars()
+        flag = False
+        if ' ' in s:
+            flag = True
+        for ch in cc:
+            result = re.search('\\s%s\\s' % ch, s)
+            if None != result:
+                flag = True
+                break
+        if flag:
+            sys.stderr.write('不正な引数です: %s\n' % s)
+            sys.exit(3)
+
     def _create_probability(self, msid):
         conn = sqlite3.connect(self._cm.get_database_path())
         results = conn.execute(self.read_sql('selectattributes.sql'), (msid,))
         for result in results:
             if 'PR' != result[1][:2]:
                 continue
-            prc = conn.execute(self.read_sql('selectbysid.sql') % 'probabilities', (result[1],))
+            prc = conn.execute(self.read_sql('selectbysid1.sql') % ('sid', 'probabilities'), (result[1],))
             for pr in prc:
                 vrc = conn.execute(self.read_sql('selectattributes.sql'), (pr[0],))
                 col = []
                 for vr in vrc:
-                    wrc = conn.execute(self.read_sql('selectbysid.sql') % 'events', (vr[1],))
+                    wrc = conn.execute(self.read_sql('selectbysid2.sql') % ('sid', 'value_map', 'events'), (vr[1],))
                     for wr in wrc:
                         col.append(Event(wr[0], json.loads(wr[1])))
                 return Probability(pr[0], col)
+        sys.stderr.write('データベースにモデルが登録されていません: %s\n' % msid)
+        sys.exit(3)
 
     def _create_probability_space(self, msid):
         conn = sqlite3.connect(self._cm.get_database_path())
@@ -165,9 +182,11 @@ class DatabaseLogic:
         for result in results:
             if 'EV' != result[1][:2]:
                 continue
-            erc = conn.execute(self.read_sql('selectbysid.sql') % 'probability_spaces', (result[1],))
+            erc = conn.execute(self.read_sql('selectbysid2.sql') % ('sid', 'cardinality', 'probability_spaces'), (result[1],))
             for er in erc:
                 return ProbabilitySpace(er[0], int(er[1]))
+        sys.stderr.write('データベースにモデルが登録されていません: %s\n' % msid)
+        sys.exit(3)
 
     def _create_sample_space(self, msid):
         conn = sqlite3.connect(self._cm.get_database_path())
@@ -175,15 +194,17 @@ class DatabaseLogic:
         for result in results:
             if 'SM' != result[1][:2]:
                 continue
-            src = conn.execute(self.read_sql('selectbysid.sql') % 'sample_spaces', (result[1],))
+            src = conn.execute(self.read_sql('selectbysid1.sql') % ('sid', 'sample_spaces'), (result[1],))
             for sr in src:
                 trc = conn.execute(self.read_sql('selectattributes.sql'), (sr[0],))
                 col = []
                 for tr in trc:
-                    urc = conn.execute(self.read_sql('selectbysid.sql') % 'samples', (tr[1],))
+                    urc = conn.execute(self.read_sql('selectbysid2.sql') % ('sid', 'word', 'samples'), (tr[1],))
                     for ur in urc:
                         col.append(Sample(ur[0], ur[1]))
                 return SampleSpace(sr[0], col)
+        sys.stderr.write('データベースにモデルが登録されていません: %s\n' % msid)
+        sys.exit(3)
 
     def read_sql(self, sql_name):
         sql_path = self._cm.get_sql_path(sql_name)

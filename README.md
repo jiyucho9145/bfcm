@@ -1,13 +1,8 @@
 # bfcm
 
-A conditional probability calculator.
+The bfcm is a statical tool which calculates a conditional probability of a category given a document by Bayesian filter.
 
-## Description
-
-The bfcm is a conditional probability calculator. 
-It calculates a conditional probability of a category given a document by Bayesian filter.
-
-Two shell scripts `train.sh` and `prob.sh` are mainly used for caluculation. 
+Two shell scripts `train.sh` and `prob.sh` are mainly used for calculation. 
 The `train.sh` makes a model in a database, and `prob.sh` calculates a conditional probability using the model in the database.
 
 ## Requirement
