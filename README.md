@@ -10,14 +10,6 @@ The `train.sh` makes a model in a database, and `prob.sh` calculates a condition
 - OS: Linux or macOS
 - Python3
 
-## Usage
-
-1. Change directory into the extracted bfcm directory in your terminal.
-2. If a model corresponding to *training_data_dir_name* has not been made yet, 
-run `./train.sh training_data_dir_name` for making a model in the database.
-3. Run `./prob.sh training_data_dir_name document_content category` for calculation.
-4. The conditional probability of *category* given *document_content* would be printed in a terminal.
-
 ## Installation
 
 1. Download bfcm as a zip file form bfcm repository page (https://github.com/jiyucho9145/bfcm).
@@ -29,6 +21,14 @@ run `./train.sh training_data_dir_name` for making a model in the database.
 7. Add document names and categories (e.g. `td1.txt	category1`) into `judge.csv` file.
 8. Change directory into 'top' bfcm directory again.
 9. Run `./init.sh` for making a database.
+
+## Usage
+
+1. Change directory into the extracted bfcm directory in your terminal.
+2. If a model corresponding to *training_data_dir_name* has not been made yet, 
+run `./train.sh training_data_dir_name` for making a model in the database.
+3. Run `./prob.sh training_data_dir_name document_content category` for calculation.
+4. The conditional probability of *category* given *document_content* would be printed in a terminal.
 
 ## Author
 jiyucho9145
