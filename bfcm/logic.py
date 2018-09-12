@@ -24,9 +24,13 @@ from bfcm.data import SampleSpace
 class ConfigLogic:
 
     def create_config_manager(self, config_path):
-        with codecs.open(config_path, 'r', 'utf-8') as fd:
-            conf_dict = json.load(fd)
-            return ConfigManager(conf_dict)
+        try:
+            with codecs.open(config_path, 'r', 'utf-8') as fd:
+                conf_dict = json.load(fd)
+                return ConfigManager(conf_dict)
+        except Exception as err:
+            sys.stderr.write('ファイルの読み込みに失敗しました: %s\n' % config_path)
+            sys.exit(3)
 
 class ContentLogic:
 
@@ -35,20 +39,24 @@ class ContentLogic:
 
     def create_mail_profile_set(self, name):
         judge_path = self._cm.get_judge_path(name)
-        with codecs.open(judge_path, 'r', 'utf-8') as fd:
-            judge_reader = csv.reader(fd, delimiter='\t')
-            i = 1
-            col = []
-            for row in judge_reader:
-                mpsid = self._cm.get_mail_profile_sid(name, i)
-                cpsid = self._cm.get_content_profile_sid(name, i)
-                path = self._cm.get_content_path(name, row[0])
-                cp = ContentProfile(cpsid, path)
-                mp = MailProfile(mpsid, row[1], cp)
-                col.append(mp)
-                i = i + 1
-        mpssid = self._cm.get_mail_profile_set_sid(name)
-        return MailProfileSet(mpssid, col)
+        try:
+            with codecs.open(judge_path, 'r', 'utf-8') as fd:
+                judge_reader = csv.reader(fd, delimiter='\t')
+                i = 1
+                col = []
+                for row in judge_reader:
+                    mpsid = self._cm.get_mail_profile_sid(name, i)
+                    cpsid = self._cm.get_content_profile_sid(name, i)
+                    path = self._cm.get_content_path(name, row[0])
+                    cp = ContentProfile(cpsid, path)
+                    mp = MailProfile(mpsid, row[1], cp)
+                    col.append(mp)
+                    i = i + 1
+            mpssid = self._cm.get_mail_profile_set_sid(name)
+            return MailProfileSet(mpssid, col)
+        except Exception as err:
+            sys.stderr.write('ファイルの読み込みに失敗しました: %s\n' % judge_path)
+            sys.exit(3)
 
 class DatabaseLogic:
 
@@ -88,6 +96,10 @@ class DatabaseLogic:
 
     def insert_mail_profile_set(self, mps):
         conn = sqlite3.connect(self._cm.get_database_path())
+        found = conn.execute(self.read_sql('selectbysid1.sql') % ('sid', 'mail_profile_sets'), (mps.get_sid(),))
+        for row in found:
+            sys.stderr.write('既にデータが登録されています: %s\n' % mps.get_sid())
+            sys.exit(3)
         conn.execute(self.read_sql('insert1.sql') % 'mail_profile_sets', (mps.get_sid(),))
         for mp in mps.get_mail_profile_list():
             conn.execute(self.read_sql('insert2.sql') % 'mail_profiles', (mp.get_sid(), mp.get_judge()))
@@ -101,6 +113,10 @@ class DatabaseLogic:
 
     def insert_model(self, model):
         conn = sqlite3.connect(self._cm.get_database_path())
+        found = conn.execute(self.read_sql('selectbysid1.sql') % ('sid', 'models'), (model.get_sid(),))
+        for row in found:
+            sys.stderr.write('既にデータが登録されています: %s\n' % model.get_sid())
+            sys.exit(3)
         conn.execute(self.read_sql('insert1.sql') % 'models', (model.get_sid(),))
         ss = model.get_sample_space()
         conn.execute(self.read_sql('insert1.sql') % 'sample_spaces', (ss.get_sid(),))
@@ -208,8 +224,12 @@ class DatabaseLogic:
 
     def read_sql(self, sql_name):
         sql_path = self._cm.get_sql_path(sql_name)
-        with codecs.open(sql_path , 'r', 'utf-8') as fd:
-            return fd.read()
+        try:
+            with codecs.open(sql_path , 'r', 'utf-8') as fd:
+                return fd.read()
+        except Exception as err:
+            sys.stderr.write('ファイルの読み込みに失敗しました: %s\n' % sql_path)
+            sys.exit(3)
 
 class TrainLogic:
 
@@ -272,14 +292,18 @@ class TrainLogic:
         ret = [self._cm.get_judge_word()]
         for mp in mpc:
             cp = mp.get_content_profile()
-            with codecs.open(cp.get_path(), 'r', 'utf-8') as fd:
-                content = fd.read()
-                sep = self._cm.get_separators()
-                words = re.split('[%s]' % sep, content)
-                for word in words:
-                    w = word.strip().replace('\n', '').replace('\r', '')
-                    if w:
-                        ret.append(w)
+            try:
+                with codecs.open(cp.get_path(), 'r', 'utf-8') as fd:
+                    content = fd.read()
+                    sep = self._cm.get_separators()
+                    words = re.split('[%s]' % sep, content)
+                    for word in words:
+                        w = word.strip().replace('\n', '').replace('\r', '')
+                        if w:
+                            ret.append(w)
+            except Exception as err:
+                sys.stderr.write('ファイルの読み込みに失敗しました: %s\n' % cp.get_path())
+                sys.exit(3)
         return list(set(ret))
 
     def _create_event_list(self, name, mps, wc):
@@ -292,14 +316,18 @@ class TrainLogic:
             vd[jd] = mp.get_judge()
             sid = self._cm.get_event_sid(name, i + 1)
             cp = mp.get_content_profile()
-            with codecs.open(cp.get_path(), 'r', 'utf-8') as fd:
-                content = fd.read()
-                for w in wc:
-                    if w == jd:
-                        continue
-                    else:
-                        vd[w] = 1 if w in content else 0
-                ret.append(Event(sid, vd))
+            try:
+                with codecs.open(cp.get_path(), 'r', 'utf-8') as fd:
+                    content = fd.read()
+                    for w in wc:
+                        if w == jd:
+                            continue
+                        else:
+                            vd[w] = 1 if w in content else 0
+                    ret.append(Event(sid, vd))
+            except Exception as err:
+                sys.stderr.write('ファイルの読み込みに失敗しました: %s\n' % cp.get_path())
+                sys.exit(3)
             i = i + 1
         return ret
 
