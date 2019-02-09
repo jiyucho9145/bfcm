@@ -4,9 +4,10 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{proposition}{Proposition}[section]
+\newtheorem{theorem}{Theorem}[section]
 \begin{document}
 
-\title{An Elementary Formulation of the Naive Bayesian Model}
+\title{A Note on an Elementary Formulation of the Naive Bayesian Model}
 \author{jiyucho9145}
 \maketitle
 \begin{abstract}
@@ -30,11 +31,11 @@ and show that the message receiving model coincides with the naive Bayesian mode
 
 \begin{definition}
 Let $ W $ be an nonempty finite set, $ E = \mathrm{Map}(W, \{0, 1\}), C = \{c_{1}, c_{2}), c_{1} \ne c_{2} $,
-then we call $ (W, E, C) $ a message receiving model.
+then we call $ (W, E, C) $ a message receiving model in this note.
 \end{definition}
 
 \begin{definition}
-Let $ g : F \to C, F \subset E, F \ne \O $, then we call $ g : F \to C $ a training data for a message receiving model $ (W, E, C) $.
+Let $ g : F \to C, F \subset E, F \ne \O $, then we call $ g : F \to C $ a training data for a message receiving model $ (W, E, C) $ in this note.
 \end{definition}
 
 \begin{definition}
@@ -65,7 +66,7 @@ We call the map
 \begin{equation}
 m_{g} : \mathrm{Pow}(F) \to \mathbb{R} ; G \mapsto \mathrm{card}(G)
 \end{equation}
-a message receiving measure of $ g : F \to C $.
+a message receiving measure of $ g : F \to C $ in this note.
 Where $ \mathrm{Pow}(S) $ denots the power set of $ S $ for arbitrary set $ S $.
 \end{definition}
 
@@ -87,7 +88,7 @@ We call the map
 \begin{equation}
 P_{g} : \mathrm{Pow}(F) \to \mathbb{R} ; G \mapsto m(G)/m(F)
 \end{equation}
-a message receiving probability of $ g : F \to C $.
+a message receiving probability of $ g : F \to C $ in this note.
 \end{definition}
 
 \begin{proposition}
@@ -107,19 +108,46 @@ We call the conditional probability
 \begin{equation}
 P_{g}(-|-): \mathrm{Pow}(F) \times \mathrm{Pow}(F) \to \mathbb{R}
 \end{equation}
-a message receiving conditional probability of $ g : F \to C $.
+a message receiving conditional probability of $ g : F \to C $ in this note.
 \end{definition}
 
 \begin{proposition}
-For arbitrary $ w \in W $, following equation is satisfied:
+For arbitrary $ M \subset F $, following equation is satisfied:
 \begin{equation}
-P_{g}(C_{g,1}|M(w)) + P_{g}(C_{g,2}|M(w)) = 1.
+P_{g}(C_{g,1}|M) + P_{g}(C_{g,2}|M) = 1.
+\end{equation}
+\end{proposition}
+
+\begin{proposition}
+For arbitrary $ M \subset F $, following equation is satisfied:
+\begin{equation}
+P_{g}(C_{g,1}|M) = \frac{P_{g}(M|C_{g,1})P(C_{g,1})}{P_{g}(M|C_{g,1})P(C_{g,1}) + P_{g}(M|C_{g,2})P(C_{g,2})}.
 \end{equation}
 \end{proposition}
 
 \section{Comparation with Naive Bayesian Model}
 
 \subsection{Calculationg Conditional Probabilities under the Two Specific Assumptions}
+
+\begin{theorem}
+Assume that $ g : F \to C $ satisfies following two conditions:
+(i) $ P_{g}(C_{g,1}) = P_{g}(C_{g,2}) = 1/2 $;
+(ii) for arbitrary $ w_{1}, w_{2}, \dots, w_{r} \in W $,
+\begin{equation}
+P_{g}(M_{g}(\{ w_{1}, w_{2}, \dots, w_{r} \})) = P_{g}(M_{g}(w_{1}))P_{g}(M_{g}(w_{2})) \cdots P_{g}(M_{g}(w_{r})).
+\end{equation}
+i.e, $ M_{g}(w_{1}), M_{g}(w_{2}), \dots, M_{g}(w_{r}) $ are independent.
+And, let $ Q_{g}(w_{1}, w_{2}, \dots, w_{r}), R_{g}(w_{1}, w_{2}, \dots, w_{r}) $ be following functions:
+\begin{eqnarray}
+Q_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}(P_{g}(M(w_{i})|C_{g,1})P_{g}(C_{g,1})), \\
+R_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}(\frac{P_{g}(M(w_{i})) - P_{g}(M(w_{i})|C_{g,1})P_{g}(C_{g,1})}{1 - P_{g}(C_{g,1})})
+\end{eqnarray}
+Then, the following equation is satisfied
+\begin{equation}
+P_{g}(C_{g,1}|M_{g}(\{ w_{1}, w_{2}, \dots, w_{r} \}))
+= \frac{Q_{g}(w_{1}, w_{2}, \dots, w_{r})}{Q_{g}(w_{1}, w_{2}, \dots, w_{r}) + R_{g}(w_{1}, w_{2}, \dots, w_{r})} 
+\end{equation}
+\end{theorem}
 
 %\begin{thebibliography}{99}
 %\bibitem{J}{Joel Grus, Data Science from Scratch: First Princeples with Python, O'Reilly (2019)}
