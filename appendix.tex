@@ -60,9 +60,62 @@ M_{g}(w) = M_{g}(\{w\}).
 
 \subsection{Message Receiving Measures}
 
+\begin{definition}
+We call the map
+\begin{equation}
+m_{g} : \mathrm{Pow}(F) \to \mathbb{R} ; G \mapsto \mathrm{card}(G)
+\end{equation}
+a message receiving measure of $ g : F \to C $.
+Where $ \mathrm{Pow}(S) $ denots the power set of $ S $ for arbitrary set $ S $.
+\end{definition}
+
+\begin{proposition}
+$ m_{g} : \mathrm{Pow}(F) \to \mathbb{R} $ is a measure on measurable space $ (F, \mathrm{Pow}(F)) $.
+\end{proposition}
+
+\begin{proposition}
+Let $ C_{g,i} = g^{-1}(c_{i}) $, then
+\begin{equation}
+\mathrm{card}(C_{g,1}) + \mathrm{card}(C_{g,2}) = \mathrm{card}(F).
+\end{equation}
+\end{proposition}
+
 \subsection{Message Receiving Probabilities}
 
+\begin{definition}
+We call the map
+\begin{equation}
+P_{g} : \mathrm{Pow}(F) \to \mathbb{R} ; G \mapsto m(G)/m(F)
+\end{equation}
+a message receiving probability of $ g : F \to C $.
+\end{definition}
+
+\begin{proposition}
+$ P_{g} : \mathrm{Pow}(F) \to \mathbb{R} $ is a probability (measure) on measurable space $ (F, \mathrm{Pow}(F)) $.
+\end{proposition}
+
+\begin{proposition}
+\begin{equation}
+P_{g}(C_{g,1}) + P_{g}(C_{g,2}) = 1.
+\end{equation}
+\end{proposition}
+
 \subsection{Message Receiving Conditional Probabilities}
+
+\begin{definition}
+We call the conditional probability 
+\begin{equation}
+P_{g}(-|-): \mathrm{Pow}(F) \times \mathrm{Pow}(F) \to \mathbb{R}
+\end{equation}
+a message receiving conditional probability of $ g : F \to C $.
+\end{definition}
+
+\begin{proposition}
+For arbitrary $ w \in W $, following equation is satisfied:
+\begin{equation}
+P_{g}(C_{g,1}|M(w)) + P_{g}(C_{g,2}|M(w)) = 1.
+\end{equation}
+\end{proposition}
 
 \section{Comparation with Naive Bayesian Model}
 
