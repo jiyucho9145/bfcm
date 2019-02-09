@@ -51,7 +51,7 @@ then we call $ (W, E, C) $ a message receiving model in this note.
 \end{definition}
 
 \begin{definition}
-Let $ g : F \to C, F \subset E, F \ne \O, C_{g,i} = g^{-1}(c_{i}) \ne \O $, then we call $ g : F \to C $
+Let $ g : F \to C, F \subset E, F \ne \O, F_{g,i} = g^{-1}(c_{i}) \ne \O $, then we call $ g : F \to C $
 a training data for a message receiving model $ (W, E, C) $ in this note.
 \end{definition}
 
@@ -100,7 +100,7 @@ $ m_{g} : \mathrm{Pow}(F) \to \mathbb{R} $ is a measure on measurable space $ (F
 
 \begin{proposition}
 \begin{equation}
-\mathrm{card}(C_{g,1}) + \mathrm{card}(C_{g,2}) = \mathrm{card}(F).
+\mathrm{card}(F_{g,1}) + \mathrm{card}(F_{g,2}) = \mathrm{card}(F).
 \end{equation}
 \end{proposition}
 
@@ -120,7 +120,7 @@ $ P_{g} : \mathrm{Pow}(F) \to \mathbb{R} $ is a probability (measure) on measura
 
 \begin{proposition}
 \begin{equation}
-P_{g}(C_{g,1}) + P_{g}(C_{g,2}) = 1.
+P_{g}(F_{g,1}) + P_{g}(F_{g,2}) = 1.
 \end{equation}
 \end{proposition}
 
@@ -144,14 +144,14 @@ P_{g}(M \cap N) = P_{g}(M | N)P_{g}(N).
 \begin{proposition}
 For arbitrary $ M \subset F $, following equation is satisfied:
 \begin{equation}
-P_{g}(C_{g,1}|M) = \frac{P_{g}(M|C_{g,1})P(C_{g,1})}{P_{g}(M|C_{g,1})P(C_{g,1}) + P_{g}(M|C_{g,2})P(C_{g,2})}.
+P_{g}(F_{g,1}|M) = \frac{P_{g}(M|F_{g,1})P(F_{g,1})}{P_{g}(M|F_{g,1})P(F_{g,1}) + P_{g}(M|F_{g,2})P(F_{g,2})}.
 \end{equation}
 \end{proposition}
 
 \begin{proposition}
 For arbitrary $ M \subset F $, following equation is satisfied:
 \begin{equation}
-P_{g}(C_{g,1}|M) + P_{g}(C_{g,2}|M) = 1.
+P_{g}(F_{g,1}|M) + P_{g}(F_{g,2}|M) = 1.
 \end{equation}
 \end{proposition}
 
@@ -161,21 +161,21 @@ P_{g}(C_{g,1}|M) + P_{g}(C_{g,2}|M) = 1.
 
 \begin{theorem}
 Assume that $ g : F \to C $ satisfies following two conditions:
-(i) $ P_{g}(C_{g,1}) = P_{g}(C_{g,2}) = 1/2 $;
+(i) $ P_{g}(F_{g,1}) = P_{g}(F_{g,2}) = 1/2 $;
 (ii) for arbitrary $ w_{1}, w_{2}, \dots, w_{r} \in W $,
 \begin{equation}
-P_{g}(M_{g}(\{ w_{1}, w_{2}, \dots, w_{r} \})|C_{g,i})
-= P_{g}(M_{g}(w_{1})|C_{g,i})P_{g}(M_{g}(w_{2})|C_{g,i}) \cdots P_{g}(M_{g}(w_{r})|C_{g,i}).
+P_{g}(M_{g}(\{ w_{1}, w_{2}, \dots, w_{r} \})|F_{g,i})
+= P_{g}(M_{g}(w_{1})|F_{g,i})P_{g}(M_{g}(w_{2})|F_{g,i}) \cdots P_{g}(M_{g}(w_{r})|F_{g,i}).
 \end{equation}
 i.e, $ M_{g}(w_{1}), M_{g}(w_{2}), \dots, M_{g}(w_{r}) $ are independent.
 And, let $ Q_{g}(w_{1}, w_{2}, \dots, w_{r}), R_{g}(w_{1}, w_{2}, \dots, w_{r}) $ be following functions:
 \begin{eqnarray}
-Q_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}P_{g}(M(w_{i})|C_{g,1}), \\
-R_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}(\frac{P_{g}(M(w_{i})) - P_{g}(M(w_{i})|C_{g,1})P_{g}(C_{g,1})}{1 - P_{g}(C_{g,1})}).
+Q_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}P_{g}(M(w_{i})|F_{g,1}), \\
+R_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}(\frac{P_{g}(M(w_{i})) - P_{g}(M(w_{i})|F_{g,1})P_{g}(F_{g,1})}{1 - P_{g}(F_{g,1})}).
 \end{eqnarray}
 Then, for arbitrary $ e \in E $, the following equation is satisfied
 \begin{equation}
-P_{g}(C_{g,1}|M_{g}(e))
+P_{g}(F_{g,1}|M_{g}(e))
 = \frac{Q_{g}(w_{1}, w_{2}, \dots, w_{r})}{Q_{g}(w_{1}, w_{2}, \dots, w_{r}) + R_{g}(w_{1}, w_{2}, \dots, w_{r})}.
 \end{equation}
 Where $ \mathrm{Supp}(e) = \{ w_{1}, w_{2}, \dots, w_{r} \} \subset W $.
