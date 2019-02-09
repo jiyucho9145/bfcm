@@ -24,31 +24,48 @@ and show that the message receiving model coincides with the naive Bayesian mode
 
 \newpage
 \section{Introduction}
+The naive Bayesian classifier is used in some mail server programs and some mail client programs.
+Many Japanese books regarding to machine leaning have been published in recent years.
+Several popular machine larning algorithms are introduced in these books.
+The naive Bayesian classifier is one of these algorithms.
+
+The mathematical background of the naive Bayesian classifier is not introduced in some books.
+This policy is appropriate in practice because programmers are able to implement and use
+the naive Bayesian classifier without the mathematical background.
+
+However, we have an interest in the mathematical background of the naive Bayesian classifier. 
+We formulate the naive Bayesian model in elementary way by probability theory
+because the naive Bayesian classifier is based on the naive Bayesian model.
+
+Next section introduces a thory on a probabilistic model (message receiving model),
+which is a base of the theory on the naive Bayesian model, section 3 formulates
+the naive Bayesian model.
 
 \section{Message Receiving Model}
 
 \subsection{Message Receiving Model}
 
 \begin{definition}
-Let $ W $ be an nonempty finite set, $ E = \mathrm{Map}(W, \{0, 1\}), C = \{c_{1}, c_{2}), c_{1} \ne c_{2} $,
+Let $ W $ be an nonempty finite set, $ E = \mathrm{Map}(W, \{0, 1\}), C = \{c_{1}, c_{2} \}, c_{1} \ne c_{2} $,
 then we call $ (W, E, C) $ a message receiving model in this note.
 \end{definition}
 
 \begin{definition}
-Let $ g : F \to C, F \subset E, F \ne \O $, then we call $ g : F \to C $ a training data for a message receiving model $ (W, E, C) $ in this note.
+Let $ g : F \to C, F \subset E, F \ne \O $, then we call $ g : F \to C $
+a training data for a message receiving model $ (W, E, C) $ in this note.
 \end{definition}
 
 \begin{definition}
-Let $ e \in F $, then we define a support $ \mathrm{Supp}_{g}(e) $ of e as follows:
+Let $ e \in E $, then we define a support $ \mathrm{Supp}(e) $ of $ e $ as follows:
 \begin{equation}
-\mathrm{Supp}_{g}(e) = \{ w \in W ; e(w) \ne 0\}.
+\mathrm{Supp}(e) = \{ w \in W ; e(w) \ne 0\}.
 \end{equation}
 \end{definition}
 
 \begin{definition}
 Let $ Z \subset W $, then we define a set $ M_{g}(Z) $ as follows:
 \begin{equation}
-M_{g}(Z) = \{e \in F ; Z \subset \mathrm{Supp}_{g}(e)\}.
+M_{g}(Z) = \{e \in F ; Z \subset \mathrm{Supp}(e)\}.
 \end{equation}
 \end{definition}
 
@@ -56,6 +73,13 @@ M_{g}(Z) = \{e \in F ; Z \subset \mathrm{Supp}_{g}(e)\}.
 Let $ w \in W $, then we define a set $ M_{g}(w) $ as follows:
 \begin{equation}
 M_{g}(w) = M_{g}(\{w\}).
+\end{equation}
+\end{definition}
+
+\begin{definition}
+Let $ e \in E $, then we define a set $ M_{g}(e) $ as follows:
+\begin{equation}
+M_{g}(e) = \cap_{w \in \mathrm{Supp}(e)}M_{g}(w).
 \end{equation}
 \end{definition}
 
@@ -112,9 +136,9 @@ a message receiving conditional probability of $ g : F \to C $ in this note.
 \end{definition}
 
 \begin{proposition}
-For arbitrary $ M \subset F $, following equation is satisfied:
+For arbitrary $ M, N \subset F $, following equation is satisfied:
 \begin{equation}
-P_{g}(C_{g,1}|M) + P_{g}(C_{g,2}|M) = 1.
+P_{g}(M \cap N) = P_{g}(M | N)P_{g}(N).
 \end{equation}
 \end{proposition}
 
@@ -122,6 +146,13 @@ P_{g}(C_{g,1}|M) + P_{g}(C_{g,2}|M) = 1.
 For arbitrary $ M \subset F $, following equation is satisfied:
 \begin{equation}
 P_{g}(C_{g,1}|M) = \frac{P_{g}(M|C_{g,1})P(C_{g,1})}{P_{g}(M|C_{g,1})P(C_{g,1}) + P_{g}(M|C_{g,2})P(C_{g,2})}.
+\end{equation}
+\end{proposition}
+
+\begin{proposition}
+For arbitrary $ M \subset F $, following equation is satisfied:
+\begin{equation}
+P_{g}(C_{g,1}|M) + P_{g}(C_{g,2}|M) = 1.
 \end{equation}
 \end{proposition}
 
@@ -140,13 +171,14 @@ i.e, $ M_{g}(w_{1}), M_{g}(w_{2}), \dots, M_{g}(w_{r}) $ are independent.
 And, let $ Q_{g}(w_{1}, w_{2}, \dots, w_{r}), R_{g}(w_{1}, w_{2}, \dots, w_{r}) $ be following functions:
 \begin{eqnarray}
 Q_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}(P_{g}(M(w_{i})|C_{g,1})P_{g}(C_{g,1})), \\
-R_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}(\frac{P_{g}(M(w_{i})) - P_{g}(M(w_{i})|C_{g,1})P_{g}(C_{g,1})}{1 - P_{g}(C_{g,1})})
+R_{g}(w_{1}, w_{2}, \dots, w_{r}) = \prod_{i}^{r}(\frac{P_{g}(M(w_{i})) - P_{g}(M(w_{i})|C_{g,1})P_{g}(C_{g,1})}{1 - P_{g}(C_{g,1})}).
 \end{eqnarray}
-Then, the following equation is satisfied
+Then, for arbitrary $ e \in E $, the following equation is satisfied
 \begin{equation}
-P_{g}(C_{g,1}|M_{g}(\{ w_{1}, w_{2}, \dots, w_{r} \}))
-= \frac{Q_{g}(w_{1}, w_{2}, \dots, w_{r})}{Q_{g}(w_{1}, w_{2}, \dots, w_{r}) + R_{g}(w_{1}, w_{2}, \dots, w_{r})} 
+P_{g}(C_{g,1}|M_{g}(e))
+= \frac{Q_{g}(w_{1}, w_{2}, \dots, w_{r})}{Q_{g}(w_{1}, w_{2}, \dots, w_{r}) + R_{g}(w_{1}, w_{2}, \dots, w_{r})}.
 \end{equation}
+Where $ \mathrm{Supp}(e) = \{ w_{1}, w_{2}, \dots, w_{r} \} \subset W $.
 \end{theorem}
 
 %\begin{thebibliography}{99}
