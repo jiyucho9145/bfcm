@@ -1,4 +1,4 @@
-\documentclass[11pt, a4paper]{article}
+\documentclass[11pt, a4note]{article}
 \usepackage{amsmath, amsthm, amssymb, geometry}
 \geometry{left=14mm, right=14mm, top=22mm, bottom=22mm}
 \theoremstyle{definition}
@@ -6,12 +6,16 @@
 \newtheorem{proposition}{Proposition}[section]
 \begin{document}
 
-\title{Appendix on bfcm (Filtering Model)}
+\title{An Elementary Formulation of the Naive Bayesian Model}
 \author{jiyucho9145}
 \maketitle
 \begin{abstract}
-We define a model (Filtering Model) for calculating a conditional probability of a catgory given a message,
-and show that the model coinsides with Bayesian Model on specific conditions.
+Some mail server programs and some mail client programs classify messages into several categories
+by the naive Bayesian classifier automatically. The algorithm of the naive Bayesian classifier is based on
+the naive Bayesian model, which satisfies the two specific assumptions.
+
+In this note, we define a probabilistic model (message receiving model) without the two assumptions
+and show that the message receiving model coincides with the naive Bayesian model under the two assumptions.
 \end{abstract}
 
 \newpage
@@ -20,25 +24,17 @@ and show that the model coinsides with Bayesian Model on specific conditions.
 \newpage
 \section{Introduction}
 
-Some mail software classify mails into several folders automatically.
-It's classification algorithm is often implemented by a classification model which is a kind of Bayesian Model,
-and satisfies 2 specific assumptions.
+\section{Message Receiving Model}
 
-In this paper, we have defined a classification model (Filtering Model) without the assumptions,
-and have shown that the new classification model generalizes the ordinal classification model.
-But, The new classification model is slow, and is not practical for mail classification.
-
-\section{Filtering Model}
-
-\subsection{Filtering Model}
+\subsection{Message Receiving Model}
 
 \begin{definition}
 Let $ W $ be an nonempty finite set, $ E = \mathrm{Map}(W, \{0, 1\}), C = \{c_{1}, c_{2}), c_{1} \ne c_{2} $,
-then we call $ (W, E, C) $ a filtering model.
+then we call $ (W, E, C) $ a message receiving model.
 \end{definition}
 
 \begin{definition}
-Let $ g : F \to C, F \subset E, F \ne \O $, then we call $ g : F \to C $ a training data for a filtering model $ (W, E, C) $.
+Let $ g : F \to C, F \subset E, F \ne \O $, then we call $ g : F \to C $ a training data for a message receiving model $ (W, E, C) $.
 \end{definition}
 
 \begin{definition}
@@ -62,11 +58,15 @@ M_{g}(w) = M_{g}(\{w\}).
 \end{equation}
 \end{definition}
 
-\subsection{Filtering Probability}
+\subsection{Message Receiving Measures}
 
-\subsection{Filtering Conditional Probability}
+\subsection{Message Receiving Probabilities}
 
-\subsection{Calculationg Conditional Probability on Specific Conditions}
+\subsection{Message Receiving Conditional Probabilities}
+
+\section{Comparation with Naive Bayesian Model}
+
+\subsection{Calculationg Conditional Probabilities under the Two Specific Assumptions}
 
 %\begin{thebibliography}{99}
 %\bibitem{J}{Joel Grus, Data Science from Scratch: First Princeples with Python, O'Reilly (2019)}
